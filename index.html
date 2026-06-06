@@ -137,9 +137,12 @@
         tasks.forEach((task, index) => {
             let li = document.createElement("li");
             li.innerHTML = `
-                ${task}
-                <button class="delete" onclick="deleteTask(${index})">Delete</button>
-            `;
+    ${task}
+    <div>
+        <button onclick="editTask(${index})">Edit</button>
+        <button class="delete" onclick="deleteTask(${index})">Delete</button>
+    </div>
+`;
             taskList.appendChild(li);
         });
     }
@@ -150,6 +153,21 @@
         localStorage.setItem("tasks", JSON.stringify(tasks));
         loadTasks();
     }
+    function editTask(index) {
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+    let updatedTask = prompt("Edit your task:", tasks[index]);
+
+    if (updatedTask === null || updatedTask.trim() === "") {
+        return;
+    }
+
+    tasks[index] = updatedTask.trim();
+
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+
+    loadTasks();
+}
 </script>
 
 </body>
